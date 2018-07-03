@@ -1,27 +1,28 @@
 // List helper functions
-let lists = []
-
-const listGenerator = () => {
-  let id = 0
-  return name => {
-    const listObj = { id: ++id, name: name }
-    lists.push(listObj)
-    return listObj
-  }
-}
-
-const createList = name => List(name)
-
-const List = listGenerator()
+let lists
 
 const handleNewListCreation = () => {
-  createList(newListNameInput.value)
-  newListNameInput.value = ''
-  generateTaskListerHtml()
+  persistList(newListNameInput.value).then(() => newListNameInput.value = '')
 }
 
 const handleDeleteList = event => {
-  lists = lists.filter(listObj => listObj.id !== parseInt(event.target.dataset.listId))
-  tasks = tasks.filter(taskObj => taskObj.listId !== parseInt(event.target.dataset.listId))
+  const listId = event.target.dataset.listId
+  deleteList(listId)
+    .then(() => {
+      lists = lists.filter(listObj => listObj.id !== parseInt(event.target.dataset.listId))
+    })
+    .then( () => {
+      tasks = tasks.filter(taskObj => taskObj.listId !== parseInt(event.target.dataset.listId))
+    } )
+    .then(() => generateTaskListerHtml())
+}
+
+const displayListFromServer = listsObjs => {
+  lists = listsObjs
+  generateTaskListerHtml()
+}
+
+const displayNewListFromServer = listObj => {
+  lists.push(listObj)
   generateTaskListerHtml()
 }

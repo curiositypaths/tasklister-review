@@ -3,7 +3,7 @@ const listDiv = document.getElementById("app-content");
 const newListNameInput = document.getElementById('new-list-title')
 const newListForm = document.getElementById('create-list-form')
 
-const generateOptionsHTML = () => lists.map(listObj => `<option value="${listObj.name}" selected="">${listObj.name}</option >`).join('')
+const generateOptionsHTML = () => lists.map(listObj => `<option value="${listObj.title}" selected="">${listObj.title}</option >`).join('')
 
 const generateTaskHTML = (taskObj, listName) => (`
             <li>
@@ -16,13 +16,13 @@ const generateTaskHTML = (taskObj, listName) => (`
             </li>
           `)
 
-const generateListTasks = listObj => tasks.filter(task => task.listId === listObj.id).map(taskObj => generateTaskHTML(taskObj, listObj.name)).join('')
+const generateListTasks = listObj => tasks.filter(task => task.listId === listObj.id).map(taskObj => generateTaskHTML(taskObj, listObj.title)).join('')
 
 const generateListHTML = listObj => (
     `
       <div>
-        <h2>${listObj.name}
-          <button data-action="delete-list" data-list-id="${listObj.id}" data-title="${listObj.name}" class="delete-list">
+        <h2>${listObj.title}
+          <button data-action="delete-list" data-list-id="${listObj.id}" data-title="${listObj.title}" class="delete-list">
             X
           </button>
         </h2>

@@ -1,22 +1,56 @@
 {
   "lists": [
     {
-      "id": 1,
-      "title": "Stuff I need to review before the code challenge"
+      "title": "Things to do on the 4th",
+      "id": 1
+    },
+    {
+      "title": "Fix coffee",
+      "id": 2
     }
   ],
   "tasks": [
     {
-      "id": 1,
-      "description": "Desc of task",
-      "priority": "low",
-      "listId": 1
-    },
-    {
-      "description": "Desc of task number two",
+      "description": "Rest",
       "priority": "High",
       "listId": 1,
+      "id": 1
+    },
+    {
+      "description": "Practice DOM",
+      "priority": "HIGH",
+      "listId": 1,
       "id": 2
+    },
+    {
+      "description": "Practice Fetch",
+      "priority": "HIGH",
+      "listId": 1,
+      "id": 3
+    },
+    {
+      "description": "Celebrate",
+      "priority": "Low",
+      "listId": 1,
+      "id": 4
+    },
+    {
+      "description": "Find the moka",
+      "priority": "",
+      "listId": 2,
+      "id": 5
+    },
+    {
+      "description": "grind the coffee",
+      "priority": "",
+      "listId": 2,
+      "id": 6
+    },
+    {
+      "description": "put on the stove",
+      "priority": "",
+      "listId": 2,
+      "id": 7
     }
   ]
 }

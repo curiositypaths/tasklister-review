@@ -1,19 +1,10 @@
 // Task helper functions
-let tasks = []
+let tasks
 
-const taskGenerator = () => {
-  let id = 0
-  return (description, priority, listId) => {
-    if (!priority) {priority = 'low'}
-    const taskOBj = { id: ++id, description: description, priority: priority, listId: listId }
-    tasks.push(taskOBj)
-    return taskOBj
-  }
+const createTask = (description, priority, listName) => {
+  const listObj = lists.find(listObj => listObj.title === listName)
+  persistTask(description, priority, listObj.id).then()
 }
-
-const Task = taskGenerator()
-
-const createTask = (description, priority, listName) => Task(description, priority, lists.find(list => list.name === listName).id)
 
 const handleNewTaskCreation = event => {
   const taskDescription = document.getElementById('new-task-description').value
@@ -24,6 +15,21 @@ const handleNewTaskCreation = event => {
 }
 
 const handleDeleteTask = event => {
-  tasks = tasks.filter(taskObj => taskObj.id !== parseInt(event.target.dataset.taskId))
+  const taskId = event.target.dataset.taskId
+  deleteTask(taskId)
+  .then( () => {
+    tasks = tasks.filter(taskObj => taskObj.id !== parseInt(event.target.dataset.taskId))
+  } )
+  .then(() => generateTaskListerHtml())
+}
+
+const loadTasksFromServer = taskObjs => tasks = taskObjs
+const loadTaskFromServer = taskObj => {
+  tasks.push(taskObj);
+  generateTaskListerHtml()
+}
+
+const displayNewTaskFromServer = taskObj => {
+  tasks.push(taskObj)
   generateTaskListerHtml()
 }
