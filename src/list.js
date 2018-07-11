@@ -1,27 +1,37 @@
-// List helper functions
-let lists = []
+const List = (function (listStore) {
+    let listId = 0
+    return class List {
+        constructor(name) {
+            this.name = name
+            this.id = ++listId
+            listStore.push(this)
+        }
 
-const listGenerator = () => {
-  let id = 0
-  return name => {
-    const listObj = { id: ++id, name: name }
-    lists.push(listObj)
-    return listObj
-  }
-}
+        ownTasks() {
+            return Task.all().filter(taskObj => taskObj.parentListId === this.id)
+        }
 
-const createList = name => List(name)
+        ownTasksHTML() {
+            return this.ownTasks().map(taskObj => taskObj.toHTML()).join('')
+        }
 
-const List = listGenerator()
+        toHTML() {
+            return `
+                    <div>
+                        <h2>${this.name}
+                        <button data-action="delete-list" data-list-id="${this.id}" data-title="${this.name}" class="delete-list">
+                            X
+                        </button>
+                        </h2>
+                        <ul>
+                            ${this.ownTasksHTML()}
+                        </ul>
+                    </div>
+                    `
+        }
 
-const handleNewListCreation = () => {
-  createList(newListNameInput.value)
-  newListNameInput.value = ''
-  generateTaskListerHtml()
-}
-
-const handleDeleteList = event => {
-  lists = lists.filter(listObj => listObj.id !== parseInt(event.target.dataset.listId))
-  tasks = tasks.filter(taskObj => taskObj.listId !== parseInt(event.target.dataset.listId))
-  generateTaskListerHtml()
-}
+        static all() {
+            return [...listStore]
+        }
+    }
+})([])

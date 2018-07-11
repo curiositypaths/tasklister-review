@@ -1,29 +1,29 @@
-// Task helper functions
-let tasks = []
+const Task = (function (taskStore) {
+    let taskId = 0
+    return class Task {
+        constructor(parentListId, description, priority) {
+            this.id = ++taskId
+            this.parentListId = parseInt(parentListId)
+            this.description = description
+            this.priority = priority
+            taskStore.push(this)
+        }
 
-const taskGenerator = () => {
-  let id = 0
-  return (description, priority, listId) => {
-    if (!priority) {priority = 'low'}
-    const taskOBj = { id: ++id, description: description, priority: priority, listId: listId }
-    tasks.push(taskOBj)
-    return taskOBj
-  }
-}
+        toHTML() {
+            return `
+                    <li>
+                    Task: ${this.description}
+                    <button data-action='delete-task' data-task-id='${this.id}' data-list-id="${this.parentListId}" data-task-name="${this.description}" class="delete-task">
+                        X
+                    </button>
+                    <br>
+                    Priority: ${this.priority}
+                    </li>
+                `
+        }
 
-const Task = taskGenerator()
-
-const createTask = (description, priority, listName) => Task(description, priority, lists.find(list => list.name === listName).id)
-
-const handleNewTaskCreation = event => {
-  const taskDescription = document.getElementById('new-task-description').value
-  const taskPriority = document.getElementById('new-task-priority').value
-  const newTaskParentListName = document.getElementById('parent-list').value
-  createTask(taskDescription, taskPriority, newTaskParentListName)
-  generateTaskListerHtml()
-}
-
-const handleDeleteTask = event => {
-  tasks = tasks.filter(taskObj => taskObj.id !== parseInt(event.target.dataset.taskId))
-  generateTaskListerHtml()
-}
+        static all() {
+            return [...taskStore]
+        }
+    }
+})([])
